@@ -42,6 +42,13 @@
 
       $scope.app = "Lista Telefônica";
       $scope.contatos = [];
+      $scope.operadoras = [
+        {nome: "Oi",        codigo: 14,    categoria: "Celular"},
+        {nome: "Vivo",      codigo: 15,    categoria: "Celular"},
+        {nome: "Tim",       codigo: 41,    categoria: "Celular"},
+        {nome: "GVT",       codigo: 25,    categoria: "Fixo"},
+        {nome: "Embratel",  codigo: 21,    categoria: "Fixo"}
+      ];
       $scope.salvarNumero = function(contato){
         $scope.contatos.push(angular.copy(contato));
         delete $scope.contato;
@@ -56,20 +63,25 @@
       <tr>
         <th>Nome</th>
         <th>Telefone</th>
-      </tr>
+        <th>Operadora</th>
+      </tr> 
       <tr ng-repeat="contato in contatos">
         <td>{{contato.nome}}</td>
         <td>{{contato.telefone}}</td>
+        <td>{{contato.operadora.nome}}</td>
       </tr>
     </table>
     <br>
     <input type="text" class="form-control" ng-model="contato.nome" placeholder="Nome..."/>
     <input type="text" class="form-control" ng-model="contato.telefone" placeholder="Telefone..."/>
+    <select class="form-control" ng-model="contato.operadora" ng-options="operadora.nome group by operadora.categoria for operadora in operadoras"> <!-- Selecionando o nome da operadora para o select -->
+      <option value="">Selecione uma operadora</option>
+    </select>
     <div class="preview">
       <h2 class="data-preview">Nome: {{contato.nome}}</h2>
       <h2 class="data-preview">Telefone: {{contato.telefone}}</h2>
     </div>
-    <button ng-click="salvarNumero(contato)" class="btn btn-secondary">Salvar</button>
+    <button ng-click="salvarNumero(contato)" class="btn btn-secondary" ng-disabled="!contato.nome || !contato.telefone">Adicionar Contato</button>
   </div>
 </body>
 </html>
